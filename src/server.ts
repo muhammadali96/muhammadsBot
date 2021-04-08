@@ -1,6 +1,12 @@
 import { Telegraf } from 'telegraf'
+import GenerateRandomSentence from './sentence';
 import getBotTokenOrQuit from './util/getBotToken';
+import axios from 'axios'
 
+async function getJoke() {
+    const res = await axios.get('https://dog.ceo/api/breeds/image/random')
+    return res.data
+}
 const botToken = getBotTokenOrQuit();
 
 const bot = new Telegraf(botToken)
@@ -9,6 +15,9 @@ bot.start((ctx) => ctx.reply("Hello!  Let's talk!"))
 bot.help((ctx) => ctx.reply('Hmm i am not programmed to be helpful, yet!'))
 bot.hears('hello', (ctx) => ctx.reply('Ok, I heard you say hello'))
 bot.command('sing', (ctx) => ctx.reply('La la la!  I got your command.'))
+bot.command('time', (ctx) => ctx.reply(Date()))
+bot.command('sentence', (ctx) => ctx.reply(GenerateRandomSentence()))
+bot.command('joke', async (ctx) => ctx.reply(await getJoke()))
 
 bot.launch()
 
