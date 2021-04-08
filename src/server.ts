@@ -4,8 +4,13 @@ import getBotTokenOrQuit from './util/getBotToken';
 import axios from 'axios'
 
 async function getJoke() {
-    const res = await axios.get('https://dog.ceo/api/breeds/image/random')
-    return res.data
+    const res = await axios.get('https://icanhazdadjoke.com/', {
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    console.log(res.data.joke)
+    return res.data.joke
 }
 const botToken = getBotTokenOrQuit();
 
